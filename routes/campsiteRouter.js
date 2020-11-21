@@ -1,5 +1,8 @@
 const express = require('express');
 const campsiteRouter = express.Router();
+const bodyParser = require('body-parser');
+
+campsiteRouter.use(bodyParser.json());
 
 campsiteRouter.route('/')
 .all((req, res, next) => {
@@ -19,6 +22,26 @@ campsiteRouter.route('/')
 })
 .delete((req, res) => {
     res.end('Deleting all campsites');
+});
+
+campsiteRouter.route('/:campsiteId')
+.all((req, res, next) => {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  next();
+})
+.get((req, res) => {
+  res.end(`Will send the ${req.params.campsiteId} details to you`);
+})
+.post((req, res) => {
+  res.end(`Will add the campsite info: ${req.params.campsiteId}`);
+})
+.put((req, res) => {
+  res.statusCode = 403;
+  res.end('PUT operation not supported on /campsitesId');
+})
+.delete((req, res) => {
+  res.end('Deleting all campsite details');
 });
 
 module.exports = campsiteRouter;
